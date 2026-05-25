@@ -1,0 +1,24 @@
+<!-- news/templates/dashboards/journalist_dashboard.html -->
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Journalist Dashboard</h2>
+
+{% for article in articles %}
+<div class="article-card">
+    <h3>{{ article.title }}</h3>
+    <p>{{ article.body }}</p>
+    
+    <a href="{% url 'news:edit_article' article.id %}">Edit</a>
+    
+    <form method="POST" action="{% url 'news:delete_article' article.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+
+{% empty %}
+
+<p>No articles yet.</p>
+{% endfor %}
+
+{% endblock %}

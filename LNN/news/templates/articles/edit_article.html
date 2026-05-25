@@ -1,0 +1,16 @@
+<!-- news/templates/articles/edit_article.html -->
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit Article</h2>
+
+<div class="article-card">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Article</button>
+    </form>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,22 @@
+<!--news/templates/editor/review_articles.html-->
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Pending Articles</h2>
+
+{% for article in articles %}
+<h3>{{ article.title }}</h3>
+<p>{{ article.body }}</p>
+<form method="POST"
+      action="{% url 'news:approve_article' article.id %}">
+    
+    {% csrf_token %}
+    <button type="submit">Approve</button>
+</form>
+<br>
+
+{% empty %}
+<p> No pending articles.</p>
+{% endfor %}
+
+{% endblock %}

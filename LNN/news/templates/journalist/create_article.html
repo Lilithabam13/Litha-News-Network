@@ -1,0 +1,15 @@
+<!--news/templates/journalist/create_article.html-->
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Create Article</h2>
+
+<div class="article-card">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit"> Submit</button>
+    </form>
+</div>
+
+{% endblock %}
