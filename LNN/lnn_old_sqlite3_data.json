@@ -1,0 +1,577 @@
+[
+{
+    "model": "auth.group",
+    "fields": {
+        "name": "Reader",
+        "permissions": [
+            [
+                "view_article",
+                "news",
+                "article"
+            ],
+            [
+                "view_newsletter",
+                "news",
+                "newsletter"
+            ]
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "fields": {
+        "name": "Editor",
+        "permissions": [
+            [
+                "change_article",
+                "news",
+                "article"
+            ],
+            [
+                "delete_article",
+                "news",
+                "article"
+            ],
+            [
+                "view_article",
+                "news",
+                "article"
+            ],
+            [
+                "change_newsletter",
+                "news",
+                "newsletter"
+            ],
+            [
+                "delete_newsletter",
+                "news",
+                "newsletter"
+            ],
+            [
+                "view_newsletter",
+                "news",
+                "newsletter"
+            ]
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "fields": {
+        "name": "Journalist",
+        "permissions": [
+            [
+                "add_article",
+                "news",
+                "article"
+            ],
+            [
+                "change_article",
+                "news",
+                "article"
+            ],
+            [
+                "delete_article",
+                "news",
+                "article"
+            ],
+            [
+                "view_article",
+                "news",
+                "article"
+            ],
+            [
+                "add_newsletter",
+                "news",
+                "newsletter"
+            ],
+            [
+                "change_newsletter",
+                "news",
+                "newsletter"
+            ],
+            [
+                "delete_newsletter",
+                "news",
+                "newsletter"
+            ],
+            [
+                "view_newsletter",
+                "news",
+                "newsletter"
+            ]
+        ]
+    }
+},
+{
+    "model": "news.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$LvLlz1P1ZFkoLJo4CIVvk9$S20r+mHsABf+JQQHKGbf3DqqbQWaGHNEQ95I7MImrf8=",
+        "last_login": "2026-05-21T20:05:58.864Z",
+        "is_superuser": false,
+        "username": "James",
+        "first_name": "",
+        "last_name": "",
+        "email": "james@lnn.co.za",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-14T17:41:16Z",
+        "role": "journalist",
+        "groups": [
+            [
+                "Journalist"
+            ]
+        ],
+        "user_permissions": [],
+        "subscribed_publishers": [],
+        "subscribed_journalists": []
+    }
+},
+{
+    "model": "news.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$MeBdOryRrEl3Isseq5gOu2$NmitJXz60smBMqpr6Y/5p54P3TmaOAV/4r/QVHDlxYg=",
+        "last_login": "2026-05-18T20:23:53.434Z",
+        "is_superuser": true,
+        "username": "Litha",
+        "first_name": "",
+        "last_name": "",
+        "email": "Litha@admin.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-05-14T18:02:28.612Z",
+        "role": "",
+        "groups": [],
+        "user_permissions": [],
+        "subscribed_publishers": [],
+        "subscribed_journalists": []
+    }
+},
+{
+    "model": "news.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$06f9aXEf3fsMQFefjIoqWq$UQBC+ijUdUtjCsRcwcOY0ygX4I9MFzOn6hlQvb8YDQY=",
+        "last_login": "2026-05-18T20:39:50.452Z",
+        "is_superuser": false,
+        "username": "Ninja",
+        "first_name": "",
+        "last_name": "",
+        "email": "ninja@lnn.co.za",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-14T18:11:33Z",
+        "role": "editor",
+        "groups": [
+            [
+                "Editor"
+            ]
+        ],
+        "user_permissions": [],
+        "subscribed_publishers": [],
+        "subscribed_journalists": []
+    }
+},
+{
+    "model": "news.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$siCwTVbvBnMVa3xe3UzsC9$J1TLEigSL4UmVhTGtSbL8JML+LS5dIsEHoY6EW9/nDw=",
+        "last_login": "2026-05-19T17:14:25.024Z",
+        "is_superuser": false,
+        "username": "Jacob",
+        "first_name": "",
+        "last_name": "",
+        "email": "jacob@lnn.co.za",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-14T18:34:34Z",
+        "role": "reader",
+        "groups": [
+            [
+                "Reader"
+            ]
+        ],
+        "user_permissions": [],
+        "subscribed_publishers": [],
+        "subscribed_journalists": []
+    }
+},
+{
+    "model": "news.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$QNJSeZ7vnsOPfvmomPpjEf$O6MxvusvQDLc6UJAn6m0SN9McV2hkDE3px1h/m6GWL8=",
+        "last_login": "2026-05-18T20:43:45.095Z",
+        "is_superuser": false,
+        "username": "Mike",
+        "first_name": "",
+        "last_name": "",
+        "email": "mike@lnn.co.za",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-18T19:23:03Z",
+        "role": "journalist",
+        "groups": [
+            [
+                "Journalist"
+            ]
+        ],
+        "user_permissions": [],
+        "subscribed_publishers": [],
+        "subscribed_journalists": []
+    }
+},
+{
+    "model": "news.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$WVKbLak4IHyjUac7YulMQR$Ul5rYvLJ90BENdWJyXgwT+jl6qnYXnxZ+wTwYpvq1+U=",
+        "last_login": "2026-05-21T20:21:11.024Z",
+        "is_superuser": false,
+        "username": "Thami",
+        "first_name": "",
+        "last_name": "",
+        "email": "thami@lnn.co.za",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-18T19:41:41Z",
+        "role": "editor",
+        "groups": [
+            [
+                "Editor"
+            ]
+        ],
+        "user_permissions": [],
+        "subscribed_publishers": [],
+        "subscribed_journalists": []
+    }
+},
+{
+    "model": "news.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$aCYsFn5WPSuy0iHMGvFRko$qvjD1HOLYgrfEVoK2/yOPw6HD1f+e92ne0BiYqJNo50=",
+        "last_login": "2026-05-19T17:02:40.796Z",
+        "is_superuser": false,
+        "username": "Jack",
+        "first_name": "",
+        "last_name": "",
+        "email": "jack@lnn.co.za",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-19T17:02:40.328Z",
+        "role": "journalist",
+        "groups": [
+            [
+                "Journalist"
+            ]
+        ],
+        "user_permissions": [],
+        "subscribed_publishers": [],
+        "subscribed_journalists": []
+    }
+},
+{
+    "model": "news.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$rek8SJaP8InBTdTcGvvuKw$tWb+R6732qZdKQmLf+0va9Lztmr5GmClooJWmIIF3Js=",
+        "last_login": "2026-05-19T17:08:42.667Z",
+        "is_superuser": false,
+        "username": "Jim",
+        "first_name": "",
+        "last_name": "",
+        "email": "jim@lnn.co.za",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-19T17:07:00.826Z",
+        "role": "editor",
+        "groups": [
+            [
+                "Editor"
+            ]
+        ],
+        "user_permissions": [],
+        "subscribed_publishers": [],
+        "subscribed_journalists": []
+    }
+},
+{
+    "model": "news.publisher",
+    "pk": 1,
+    "fields": {
+        "name": "Snowfall Press",
+        "editors": [],
+        "journalists": []
+    }
+},
+{
+    "model": "news.publisher",
+    "pk": 2,
+    "fields": {
+        "name": "Silver Daily",
+        "editors": [],
+        "journalists": []
+    }
+},
+{
+    "model": "news.publisher",
+    "pk": 3,
+    "fields": {
+        "name": "Django & Associates",
+        "editors": [],
+        "journalists": []
+    }
+},
+{
+    "model": "news.article",
+    "pk": 1,
+    "fields": {
+        "title": "Spy AI",
+        "body": "The James Bond franchise is currently undergoing its most significant evolution since the series began in 1962. With the departure of Daniel Craig, the creative keys have been handed to a new generation of filmmakers, and the focus has shifted from \"superhero\" action back to the character's gritty, cold-blooded",
+        "is_approved": true,
+        "created_at": "2026-05-14T18:09:13.167Z",
+        "author": [
+            "James"
+        ],
+        "publisher": 1
+    }
+},
+{
+    "model": "news.article",
+    "pk": 2,
+    "fields": {
+        "title": "Yellow",
+        "body": "Article 18 and Article 5.",
+        "is_approved": true,
+        "created_at": "2026-05-18T19:23:39.010Z",
+        "author": [
+            "Mike"
+        ],
+        "publisher": 2
+    }
+},
+{
+    "model": "news.article",
+    "pk": 3,
+    "fields": {
+        "title": "Blue",
+        "body": "Article 7 & Article 44.",
+        "is_approved": true,
+        "created_at": "2026-05-18T19:29:06.711Z",
+        "author": [
+            "Mike"
+        ],
+        "publisher": 3
+    }
+},
+{
+    "model": "news.article",
+    "pk": 5,
+    "fields": {
+        "title": "Article 47",
+        "body": "Similar to agent 47, but different",
+        "is_approved": false,
+        "created_at": "2026-05-18T20:37:35.095Z",
+        "author": [
+            "James"
+        ],
+        "publisher": 2
+    }
+},
+{
+    "model": "news.article",
+    "pk": 6,
+    "fields": {
+        "title": "Testing",
+        "body": "Testing workflow #18, hopefully done",
+        "is_approved": true,
+        "created_at": "2026-05-18T20:38:27.975Z",
+        "author": [
+            "James"
+        ],
+        "publisher": 3
+    }
+},
+{
+    "model": "news.article",
+    "pk": 7,
+    "fields": {
+        "title": "Testing-10",
+        "body": "Test no. 10",
+        "is_approved": true,
+        "created_at": "2026-05-18T20:44:38.970Z",
+        "author": [
+            "Mike"
+        ],
+        "publisher": 1
+    }
+},
+{
+    "model": "news.article",
+    "pk": 10,
+    "fields": {
+        "title": "Deleted44",
+        "body": "IDK even know mate",
+        "is_approved": false,
+        "created_at": "2026-05-19T17:05:03.275Z",
+        "author": [
+            "Jack"
+        ],
+        "publisher": 1
+    }
+},
+{
+    "model": "news.article",
+    "pk": 11,
+    "fields": {
+        "title": "Persevere to succeed",
+        "body": "Funny enough, this was my primary school motto. Funny how life works out. I'm currently 9-months into what was supposed to be a 6-month course. For most of my life I've always associated mastery with a timeline. I matriculated at 18, got my degree within 4years, landed my first job months before graduation. Progress has always been linear - study hard, stay disciplined, finish on time. Fast forward I'm 26 and I spend my evenings trying to design the 'perfect' models, views, workflows. Just when you thought you finally got it, a whole new set of questions arise, \"how do you build an email\", \"how should permissions & decorators structure the workflow\", in the context of my latest program \"What is the difference between User and an AbstractUser Model\". And finally after feeling like you in a grove and making significant inroads you spend a week trying to solve the Django models that refuse to migrate, I've learnt \"succeeding\" isn't always about finishing on time. Sometimes success is about having the grit to stay in the chair after the 6-month mark, after the finish line moves. After the excitement of learning something new wears off and the frustration of \"not getting it\" creeps in. I've learnt mastery does not have a deadline rather embracing the grind long enough for understanding to catch up.",
+        "is_approved": true,
+        "created_at": "2026-05-21T20:20:38.133Z",
+        "author": [
+            "James"
+        ],
+        "publisher": 2
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2026-05-14T18:04:17.981Z",
+        "user": [
+            "Litha"
+        ],
+        "content_type": [
+            "news",
+            "publisher"
+        ],
+        "object_id": "1",
+        "object_repr": "Snowfall Press",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2026-05-14T18:05:04.188Z",
+        "user": [
+            "Litha"
+        ],
+        "content_type": [
+            "news",
+            "publisher"
+        ],
+        "object_id": "2",
+        "object_repr": "Silver Daily",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2026-05-14T18:05:22.125Z",
+        "user": [
+            "Litha"
+        ],
+        "content_type": [
+            "news",
+            "publisher"
+        ],
+        "object_id": "3",
+        "object_repr": "Django & Associates",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2026-05-18T20:25:14.881Z",
+        "user": [
+            "Litha"
+        ],
+        "content_type": [
+            "news",
+            "customuser"
+        ],
+        "object_id": "6",
+        "object_repr": "Thami",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Email address\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2026-05-18T20:25:38.618Z",
+        "user": [
+            "Litha"
+        ],
+        "content_type": [
+            "news",
+            "customuser"
+        ],
+        "object_id": "5",
+        "object_repr": "Mike",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Email address\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2026-05-18T20:26:04.791Z",
+        "user": [
+            "Litha"
+        ],
+        "content_type": [
+            "news",
+            "customuser"
+        ],
+        "object_id": "4",
+        "object_repr": "Jacob",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Email address\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2026-05-18T20:26:39.135Z",
+        "user": [
+            "Litha"
+        ],
+        "content_type": [
+            "news",
+            "customuser"
+        ],
+        "object_id": "3",
+        "object_repr": "Ninja",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Email address\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2026-05-18T20:27:06.459Z",
+        "user": [
+            "Litha"
+        ],
+        "content_type": [
+            "news",
+            "customuser"
+        ],
+        "object_id": "1",
+        "object_repr": "James",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Email address\"]}}]"
+    }
+}
+]
