@@ -4,21 +4,38 @@
 
 <h2>Journalist Dashboard</h2>
 
+<h3>Your Articles</h3>
+
 {% for article in articles %}
 <div class="article-card">
     <h3>{{ article.title }}</h3>
     <p>{{ article.body }}</p>
     
-    <a href="{% url 'news:edit_article' article.id %}">Edit</a>
+    <a href="{% url 'news:edit_article' article.id %}">Edit Article</a>
     
-    <form method="POST" action="{% url 'news:delete_article' article.id %}">
-        {% csrf_token %}
-        <button type="submit">Delete</button>
-    </form>
+    <a href="{% url 'news:delete_article' article.id %}">Delete Article</a>
+</div>
 
 {% empty %}
 
 <p>No articles yet.</p>
+{% endfor %}
+
+<h3>Your Newsletters</h3>
+
+{% for newsletter in newsletters %}
+<div class="article-card">
+    <h3>{{ newsletter.title }}</h3>
+    <p>{{ newsletter.body }}</p>
+    
+    <a href="{% url 'news:edit_newsletter' newsletter.id %}">Edit Newsletter</a>
+    
+    <a href="{% url 'news:delete_newsletter' newsletter.id %}">Delete Newsletter</a>
+</div>
+
+{% empty %}
+
+<p>No newsletters yet.</p>
 {% endfor %}
 
 {% endblock %}

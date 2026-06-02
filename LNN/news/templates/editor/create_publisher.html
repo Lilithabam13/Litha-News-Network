@@ -1,0 +1,13 @@
+<!--news/templates/editor/create_publisher.html-->
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Create Publisher</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Publisher</button>
+</form>
+
+{% endblock %}

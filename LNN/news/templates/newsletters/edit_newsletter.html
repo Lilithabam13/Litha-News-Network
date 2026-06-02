@@ -1,0 +1,16 @@
+<!-- news/templates/newsletters/edit_newsletter.html -->
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit Newsletter</h2>
+
+<div class="article-card">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Newsletter</button>
+    </form>
+</div>
+
+{% endblock %}
+

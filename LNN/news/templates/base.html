@@ -32,6 +32,7 @@
                 
                 {% if user.role == "journalist" %}
                 <a href="{% url 'news:create_article' %}">Create Article</a>
+                <a href="{% url 'news:create_newsletter' %}">Create Newsletter</a>
                 {% endif %}
                 
                 {% if user.role == "editor" %}

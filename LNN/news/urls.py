@@ -21,6 +21,9 @@ urlpatterns = [
 
     path("create-article/", views.create_article, name="create_article"),
 
+    path("create-newsletter/", views.create_newsletter,
+         name="create_newsletter"),
+
     # ------------------------------
     # Editor
     # ------------------------------
@@ -30,13 +33,23 @@ urlpatterns = [
 
     path("review-articles/", views.review_articles, name="review_articles"),
 
+    path("create-publisher/", views.create_publisher, name="create_publisher"),
+
     # ------------------------------
     # Journalist/Editor
     # ------------------------------
     path("edit-article/<int:article_id>/", views.edit_article,
          name="edit_article"),
+
     path("delete-article/<int:article_id>/", views.delete_article,
          name="delete_article"),
+
+    path("edit-newsletter/<int:newsletter_id>/", views.edit_newsletter,
+         name="edit_newsletter"),
+
+    path("delete-newsletter/<int:newsletter_id>/", views.delete_newsletter,
+         name="delete_newsletter"),
+
 
     # ------------------------------
     # Authorisation & Authentication

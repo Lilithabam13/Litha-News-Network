@@ -23,6 +23,8 @@ class CustomUser(AbstractUser):
     - publisher subscriptions
     - journalist subscriptions"""
 
+    email = models.EmailField(unique=True)
+
     ROLE_CHOICES = (
         ("reader", "Reader"),
         ("editor", "Editor"),
@@ -75,7 +77,8 @@ class Article(models.Model):
                                related_name="articles")
 
     publisher = models.ForeignKey(
-        Publisher, on_delete=models.CASCADE, related_name="articles")
+        Publisher, on_delete=models.CASCADE, related_name="articles", 
+        null=True, blank=True)
 
     def __str__(self):
         return self.title

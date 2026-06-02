@@ -1,0 +1,13 @@
+<!--news/templates/journalist/create_newsletter.html-->
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Create Newsletter</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Publish Newsletter</button>
+</form>
+
+{% endblock %}

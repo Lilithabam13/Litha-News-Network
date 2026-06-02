@@ -12,8 +12,8 @@ This module contains:
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
-from .forms import CustomUserCreationForm, ArticleForm
-from .models import Article, ResetToken
+from .forms import CustomUserCreationForm, ArticleForm, PublisherForm, NewsletterForm
+from .models import Article, ResetToken, Newsletter
 from django.contrib.auth.models import Group
 import requests
 from django.core.mail import send_mail, EmailMessage
@@ -66,7 +66,7 @@ def is_editor(user):
 def create_article(request):
     """Creates a new article submitted by a journalist.
 
-    Validates article form data and assigns the logged-in user as the author 
+    Validates article form data and assigns the logged-in user as the author
     of the aticle.
 
     :param request: HTTP request object
@@ -184,7 +184,11 @@ def approve_article(request, article_id):
         article.is_approved = True
         article.save()
 
-        publisher_subscribers = article.publisher.subscribers.all()
+        if article.publisher:
+            publisher_subscribers = article.publisher.subscribers.all()
+        else:
+            publisher_subscribers = []
+
         journalist_subscribers = article.author.followers.all()
 
         publisher_list = list(publisher_subscribers)
@@ -215,6 +219,8 @@ def approve_article(request, article_id):
         except Exception:
             pass
 
+        messages.success(request, "Article approved and notififications sent.")
+
     return redirect("news:editor_dashboard")
 
 
@@ -242,8 +248,9 @@ def journalist_dashboard(request):
     :rtype: HttpResponse"""
 
     articles = Article.objects.filter(author=request.user)
+    newsletters = Newsletter.objects.filter(author=request.user)
     return render(request, "dashboards/journalist_dashboard.html",
-                  {"articles": articles})
+                  {"articles": articles, "newsletters": newsletters})
 
 
 @login_required
@@ -259,8 +266,9 @@ def editor_dashboard(request):
     :return: Rendered journalist dashboard
     :rtype: HttpResponse"""
     pending_articles = Article.objects.filter(is_approved=False)
+    newsletters = Newsletter.objects.all()
     return render(request, "dashboards/editor_dashboard.html",
-                  {"articles": pending_articles})
+                  {"articles": pending_articles, "newsletters": newsletters})
 
 
 @login_required
@@ -277,8 +285,9 @@ def reader_dashboard(request):
     :rtype: HttpResponse"""
 
     articles = Article.objects.filter(is_approved=True)
+    newsletters = Newsletter.objects.all()
     return render(request, "dashboards/reader_dashboard.html",
-                  {"articles": articles})
+                  {"articles": articles, "newsletters": newsletters})
 
 
 def role_redirect(user):
@@ -498,3 +507,136 @@ def generate_reset_url(user):
     reset_token.save()
     url += f"{token}/"
     return url
+
+
+@login_required
+@user_passes_test(is_editor)
+def create_publisher(request):
+    """Creates a new publisher and assigns the logged-in editor to it.
+
+    Validates publisher form data and establishes the editor relationship.
+
+    :param request: HTTP request object
+    :type request: HttpRequest
+    :return: Rendered publisher form or redirect response
+    :rtype: HttpResponse"""
+
+    if request.method == "POST":
+        form = PublisherForm(request.POST)
+
+        if form.is_valid():
+            publisher = form.save()
+
+            publisher.editors.add(request.user)
+
+            messages.success(request, "Publisher created successfully.")
+
+            return redirect("news:editor_dashboard")
+
+    else:
+        form = PublisherForm()
+
+    return render(request, "editor/create_publisher.html", {"form": form})
+
+
+@login_required
+@user_passes_test(is_journalist)
+def create_newsletter(request):
+    """Creates a new newsletter submitted by a journalist.
+
+    Validates newsletter form data and assigns the logged-in user as the
+    author.
+
+    :param request: HTTP request object
+    :type request: HttpRequest
+    :return: Rendered newsletter form or redirect response
+    :rtype: HttpResponse"""
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+
+        if form.is_valid():
+            newsletter = form.save(commit=False)
+
+            newsletter.author = request.user
+            newsletter.save()
+
+            messages.success(request, "Newsletter created successfully.")
+
+            return redirect("news:journalist_dashboard")
+
+    else:
+        form = NewsletterForm()
+
+    return render(request, "journalist/create_newsletter.html", {"form": form})
+
+
+# Journalist/Editor
+@login_required
+@permission_required("news.change_newsletter", raise_exception=True)
+def edit_newsletter(request, newsletter_id):
+    """Edits an existing newsletter.
+
+    Journalists only edit their own articles while editors may edit any
+    newsletter.
+
+    :param request: HTTP request object
+    :type request: HttpRequest
+    :param article_id: Unique newsletter identifier
+    :type article_id: int
+    :return: Rendered edit form or redirect response
+    :rtype: HttpResponse"""
+
+    newsletter = get_object_or_404(Newsletter, id=newsletter_id)
+
+    if request.user.role == "journalist" and newsletter.author != request.user:
+        return redirect("news:journalist_dashboard")
+
+    if request.method == "POST":
+        form = NewsletterForm(request.POST, instance=newsletter)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, "Newsletter updated successfully")
+
+            if request.user.role == "editor":
+                return redirect("news:editor_dashboard")
+
+            return redirect("news:journalist_dashboard")
+    else:
+        form = NewsletterForm(instance=newsletter)
+
+    return render(request, "newsletters/edit_newsletter.html",
+                  {"form": form, "newsletter": newsletter})
+
+
+@login_required
+@permission_required("news.delete_newsletter", raise_exception=True)
+def delete_newsletter(request, newsletter_id):
+    """Deletes an existing newsletter.
+
+    :param request: HTTP request object
+    :type request: HttpRequest
+    :param article_id: Unique newsletter identifier
+    :type article_id: int
+    :return: Rendered confirmation page or redirect response
+    :rtype: HttpResponse"""
+
+    newsletter = get_object_or_404(Newsletter, id=newsletter_id)
+
+    if request.user.role == "journalist" and newsletter.author != request.user:
+        return redirect("news:journalist_dashboard")
+
+    if request.method == "POST":
+        newsletter.delete()
+
+        messages.success(request, "Newsletter deleted successfully")
+
+        if request.user.role == "editor":
+            return redirect("news:editor_dashboard")
+
+        return redirect("news:journalist_dashboard")
+
+    return render(request, "newsletters/delete_newsletter.html",
+                  {"newsletter": newsletter})

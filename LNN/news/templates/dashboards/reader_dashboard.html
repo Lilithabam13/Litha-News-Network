@@ -4,6 +4,8 @@
 
 <h2>Reader Dashboard</h2>
 
+<h3>Articles</h3>
+
 {% for article in articles %}
 
 <div class="article-card">
@@ -13,6 +15,19 @@
 {% empty %}
 
 <p>No articles available.</p>
+{% endfor %}
+
+<h3>Newsletters</h3>
+
+{% for newsletter in newsletters %}
+
+<div class="article-card">
+    <h3>{{ newsletter.title }}</h3>
+    <p>{{ newsletter.body }}</p>
+</div>
+{% empty %}
+
+<p>No newsletters available.</p>
 {% endfor %}
 
 {% endblock %}
