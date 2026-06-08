@@ -111,13 +111,15 @@
 </li>
       <li><a href="news.html#news.forms.ArticleForm.Meta">ArticleForm.Meta (class in news.forms)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="news.html#news.tests.ArticleModelTest">ArticleModelTest (class in news.tests)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="news.html#news.models.CustomUser.articles">articles (news.models.CustomUser attribute)</a>
 
       <ul>
+        <li><a href="news.html#news.models.Newsletter.articles">(news.models.Newsletter attribute)</a>
+</li>
         <li><a href="news.html#news.models.Publisher.articles">(news.models.Publisher attribute)</a>
 </li>
       </ul></li>
@@ -156,11 +158,7 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="news.html#news.models.Article.body">body (news.models.Article attribute)</a>
-
-      <ul>
-        <li><a href="news.html#news.models.Newsletter.body">(news.models.Newsletter attribute)</a>
 </li>
-      </ul></li>
       <li><a href="news.html#news.views.build_email">build_email() (in module news.views)</a>
 </li>
   </ul></td>
@@ -327,10 +325,20 @@
         <li><a href="news.html#news.models.ResetToken.id">(news.models.ResetToken attribute)</a>
 </li>
       </ul></li>
-      <li><a href="news.migrations.html#news.migrations.0001_initial.Migration.initial">initial (news.migrations.0001_initial.Migration attribute)</a>
+      <li><a href="news.html#news.models.CustomUser.independent_articles">independent_articles (news.models.CustomUser attribute)</a>
 </li>
+      <li><a href="news.html#news.models.Article.independent_authors">independent_authors (news.models.Article attribute)</a>
+</li>
+      <li><a href="news.html#news.models.CustomUser.independent_newsletters">independent_newsletters (news.models.CustomUser attribute)</a>
+
+      <ul>
+        <li><a href="news.html#news.models.Newsletter.independent_newsletters">(news.models.Newsletter attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="news.migrations.html#news.migrations.0001_initial.Migration.initial">initial (news.migrations.0001_initial.Migration attribute)</a>
+</li>
       <li><a href="news.html#news.models.CustomUser.is_active">is_active (news.models.CustomUser attribute)</a>
 </li>
       <li><a href="news.html#news.models.Article.is_approved">is_approved (news.models.Article attribute)</a>
@@ -617,8 +625,12 @@
 </li>
       <li><a href="news.html#news.forms.NewsletterForm.Meta">NewsletterForm.Meta (class in news.forms)</a>
 </li>
-      <li><a href="news.html#news.models.CustomUser.newsletters">newsletters (news.models.CustomUser attribute)</a>
+      <li><a href="news.html#news.models.Article.newsletters">newsletters (news.models.Article attribute)</a>
+
+      <ul>
+        <li><a href="news.html#news.models.CustomUser.newsletters">(news.models.CustomUser attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -709,14 +721,16 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="news.html#news.models.CustomUser.save">save() (news.models.CustomUser method)</a>
+</li>
       <li><a href="news.html#news.views.send_password_reset">send_password_reset() (in module news.views)</a>
 </li>
       <li><a href="news.html#news.tests.ArticleAPITest.setUp">setUp() (news.tests.ArticleAPITest method)</a>
 </li>
-      <li><a href="news.html#news.api_views.subscribed_articles_api">subscribed_articles_api() (in module news.api_views)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="news.html#news.api_views.subscribed_articles_api">subscribed_articles_api() (in module news.api_views)</a>
+</li>
       <li><a href="news.html#news.models.CustomUser.subscribed_journalists">subscribed_journalists (news.models.CustomUser attribute)</a>
 </li>
       <li><a href="news.html#news.models.CustomUser.subscribed_publishers">subscribed_publishers (news.models.CustomUser attribute)</a>
@@ -735,14 +749,18 @@
 </li>
       <li><a href="news.html#news.tests.UrlTests.test_login_page">test_login_page() (news.tests.UrlTests method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="news.html#news.models.Article.title">title (news.models.Article attribute)</a>
 
       <ul>
         <li><a href="news.html#news.models.Newsletter.title">(news.models.Newsletter attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="news.html#news.views.toggle_journalist_subscription">toggle_journalist_subscription() (in module news.views)</a>
+</li>
+      <li><a href="news.html#news.views.toggle_publisher_subscription">toggle_publisher_subscription() (in module news.views)</a>
+</li>
       <li><a href="news.html#news.models.ResetToken.token">token (news.models.ResetToken attribute)</a>
 </li>
   </ul></td>
@@ -772,6 +790,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="news.html#news.views.welcome">welcome() (in module news.views)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="news.html#news.forms.NewsletterForm.Meta.widgets">widgets (news.forms.NewsletterForm.Meta attribute)</a>
 </li>
   </ul></td>
 </tr></table>

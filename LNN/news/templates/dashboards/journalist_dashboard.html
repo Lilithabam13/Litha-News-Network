@@ -26,7 +26,14 @@
 {% for newsletter in newsletters %}
 <div class="article-card">
     <h3>{{ newsletter.title }}</h3>
-    <p>{{ newsletter.body }}</p>
+    <p><strong>Curated Collection:</strong></p>
+    <ul>
+        {% for article in newsletter.articles.all %}
+        <li>{{ article.title }}</li>
+        {% empty %}
+        <li>No articles added to this newsletter yet.</li>
+        {% endfor %}
+    </ul>
     
     <a href="{% url 'news:edit_newsletter' newsletter.id %}">Edit Newsletter</a>
     

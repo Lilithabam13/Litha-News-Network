@@ -88,4 +88,15 @@ urlpatterns = [
     path("api/articles/", api_views.subscribed_articles_api,
          name="api_articles"),
 
+    # ------------------------------
+    # Subscriptions
+    # ------------------------------
+
+    path("subscribe-publisher/<int:publisher_id>/",
+         views.toggle_publisher_subscription,
+         name="toggle_publisher_subscription"),
+    path("subscribe-journalist/<int:journalist_id>/",
+         views.toggle_journalist_subscription,
+         name="toggle_journalist_subscription"),
+
 ]

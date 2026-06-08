@@ -4,12 +4,48 @@
 
 <h2>Reader Dashboard</h2>
 
+<h3>Publishing Organisations</h3>
+<ul>{% for publisher in all_publishers %}
+    <li>
+        {{ publisher.name }}
+        <a href="{% url 'news:toggle_publisher_subscription' publisher.id %}">
+            {% if publisher in user.subscribed_publishers.all %}
+            [Unsubscribe]
+            {% else %}
+            [Subscribe]
+            {% endif %}
+        </a>
+    </li>
+    {% empty %}
+    <li>No publishers registered yet.</li>
+    {% endfor %}
+</ul>
+
+<h3>Independent Journalists</h3>
+<ul>
+    {% for journalist in all_journalists %}
+    <li>
+        {{ journalist.username }}
+        <a href="{% url 'news:toggle_journalist_subscription' journalist.id%}">
+            {% if journalist in user.subscribed_journalists.all %}
+            [Unfollow]
+            {% else %}
+            [Follow]
+            {% endif %}
+        </a>
+    </li>
+    {% empty %}
+    <li>No journalists registered yet.</li>
+    {% endfor %}
+</ul>
+
 <h3>Articles</h3>
 
 {% for article in articles %}
 
 <div class="article-card">
-    <h3>{{ article.title }}</h3>
+    <strong>Published by: {% if article.publisher %}{{ article.publisher.name }}{% else %}Independent{% endif %}</strong>
+    <strong>Written by:</strong>{{ article.author.username}}
     <p>{{ article.body }}</p>
 </div>
 {% empty %}
@@ -23,7 +59,13 @@
 
 <div class="article-card">
     <h3>{{ newsletter.title }}</h3>
-    <p>{{ newsletter.body }}</p>
+    <p><strong>Curated Collection:</strong></p>
+    <ul>{% for article in newsletter.articles.all %}
+        <li>{{ article.title }}</li>
+        {% empty %}
+        <li>No articles added to this newsletter yet.</li>
+        {% endfor %}
+    </ul>
 </div>
 {% empty %}
 

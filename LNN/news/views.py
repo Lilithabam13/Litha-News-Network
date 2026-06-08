@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from .forms import CustomUserCreationForm, ArticleForm, PublisherForm, NewsletterForm
-from .models import Article, ResetToken, Newsletter
+from .models import Article, ResetToken, Newsletter, CustomUser, Publisher
 from django.contrib.auth.models import Group
 import requests
 from django.core.mail import send_mail, EmailMessage
@@ -256,38 +256,59 @@ def journalist_dashboard(request):
 @login_required
 @user_passes_test(is_editor)
 def editor_dashboard(request):
-    """Displays the editor dashboard, shows all articles created by
-    a journalist.
+    """Displays the editor dashboard, shows articles and newsletters.
 
-    Editor may read, update, delete all articles.
+    Editors may read, update, delete all items including already approved
+    content.
 
     :param request: HTTP request object
     :type request: HttpRequest
     :return: Rendered journalist dashboard
     :rtype: HttpResponse"""
-    pending_articles = Article.objects.filter(is_approved=False)
-    newsletters = Newsletter.objects.all()
+    all_articles = Article.objects.order_by("created_at")
+    newsletters = Newsletter.objects.all().order_by("created_at")
     return render(request, "dashboards/editor_dashboard.html",
-                  {"articles": pending_articles, "newsletters": newsletters})
+                  {"articles": all_articles, "newsletters": newsletters})
 
 
 @login_required
 @user_passes_test(is_reader)
 def reader_dashboard(request):
-    """Displays the journalist dashboard, shows all articles created by
-    a journalist.
+    """Displays the reader dashboard, shows personalised content feed.
 
-    Reader may read articles.
+    Reader may read newsletters and approved articles only tailored to their
+    subscribed publishers and journalists they follow.
 
     :param request: HTTP request object
     :type request: HttpRequest
     :return: Rendered journalist dashboard
     :rtype: HttpResponse"""
+    current_user = request.user
+    my_publishers = current_user.subscribed_publishers.all()
+    my_journalists = current_user.subscribed_journalists.all()
 
-    articles = Article.objects.filter(is_approved=True)
-    newsletters = Newsletter.objects.all()
+    all_approved = Article.objects.filter(is_approved=True)
+
+    feed_articles = []
+
+    for article in all_approved:
+        if article.publisher in my_publishers or article.author in my_journalists:
+            feed_articles.append(article)
+
+        all_newsletters = Newsletter.objects.all()
+        feed_newsletters = []
+
+        for newsletter in all_newsletters:
+            if newsletter.author in my_journalists:
+                feed_newsletters.append(newsletter)
+
+    all_publishers = Publisher.objects.all()
+    all_journalists = CustomUser.objects.filter(role="journalist")
+
     return render(request, "dashboards/reader_dashboard.html",
-                  {"articles": articles, "newsletters": newsletters})
+                  {"articles": feed_articles, "newsletters": feed_newsletters,
+                   "all_publishers": all_publishers,
+                   "all_journalists": all_journalists})
 
 
 def role_redirect(user):
@@ -561,6 +582,8 @@ def create_newsletter(request):
             newsletter.author = request.user
             newsletter.save()
 
+            form.save_m2m()
+
             messages.success(request, "Newsletter created successfully.")
 
             return redirect("news:journalist_dashboard")
@@ -640,3 +663,48 @@ def delete_newsletter(request, newsletter_id):
 
     return render(request, "newsletters/delete_newsletter.html",
                   {"newsletter": newsletter})
+
+
+@login_required
+@user_passes_test(is_reader)
+def toggle_publisher_subscription(request, publisher_id):
+    """Allows a reader to subscribe or unsubscribe from a publisher.
+
+    :param request: HTTP request object
+    :type request: HttpRequest
+    :param publisher_id: Unique publisher identifier
+    :type publisher_id: int
+    :return: Redirect response back to reader feed
+    :rtype: HttpResponseRedirect"""
+
+    publisher = get_object_or_404(Publisher, id=publisher_id)
+    if request.user.subscribed_publishers.filter(id=publisher.id).exists():
+        request.user.subscribed_publishers.remove(publisher)
+        messages.success(request, f"Unsubscribed from {publisher.name}")
+    else:
+        request.user.subscribed_publishers.add(publisher)
+        messages.success(request, f"Subscribed to {publisher.name}")
+    return redirect("news:reader_dashboard")
+
+
+@login_required
+@user_passes_test(is_reader)
+def toggle_journalist_subscription(request, journalist_id):
+    """Allows a reader to follow or unfollow from an independent journalist.
+
+    :param request: HTTP request object
+    :type request: HttpRequest
+    :param journalist_id: Unique journalist identifier
+    :type journalist_id: int
+    :return: Redirect response to reader feed
+    :rtype: httpResponseRedirect"""
+
+    journalist = get_object_or_404(CustomUser, id=journalist_id,
+                                   role="journalist")
+    if request.user.subscribed_journalists.filter(id=journalist.id).exists():
+        request.user.subscribed_journalists.remove(journalist)
+        messages.success(request, f"Unfollowed {journalist.username}")
+    else:
+        request.user.subscribed_journalists.add(journalist)
+        messages.success(request, f"Following {journalist.username}")
+    return redirect("news:reader_dashboard")

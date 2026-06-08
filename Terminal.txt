@@ -1,0 +1,270 @@
+lilitha13@Litha:~$ cd ~/my-python-projects/News_App
+lilitha13@Litha:~/my-python-projects/News_App$ ls
+Dockerfile  LNN  README.md  capstone.txt  docs  lbenv  requirements.txt
+lilitha13@Litha:~/my-python-projects/News_App$ source lbenv/bin/activate
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App$ cd LNN
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/LNN$ ls
+LNN          db.sqlite3                 manage.py  requirements.txt
+__pycache__  lnn_old_sqlite3_data.json  news
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/LNN$ python manage.py makemigrations
+Migrations for 'news':
+  news/migrations/0003_alter_customuser_email.py
+    ~ Alter field email on customuser
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/LNN$ python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, news, sessions
+Running migrations:
+  Applying news.0003_alter_customuser_email... OK
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/LNN$ python manage.py makemigrations
+No changes detected
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/LNN$  python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, news, sessions
+Running migrations:
+  No migrations to apply.
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/LNN$ python manage.py makemigrations
+Migrations for 'news':
+  news/migrations/0004_alter_article_publisher.py
+    ~ Alter field publisher on article
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/LNN$ python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, news, sessions
+Running migrations:
+  Applying news.0004_alter_article_publisher... OK
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/LNN$ python manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 02, 2026 - 18:54:08
+Django version 6.0.4, using settings 'LNN.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/
+[02/Jun/2026 18:54:17] "GET / HTTP/1.1" 302 0
+[02/Jun/2026 18:54:17] "GET /login/?next=/ HTTP/1.1" 200 1449
+[02/Jun/2026 18:54:17] "GET /static/news/style.css HTTP/1.1" 200 3093
+Not Found: /favicon.ico
+[02/Jun/2026 18:54:17] "GET /favicon.ico HTTP/1.1" 404 7736
+[02/Jun/2026 18:55:45] "POST /login/?next=/ HTTP/1.1" 302 0
+[02/Jun/2026 18:55:45] "GET /dashboard/reader/ HTTP/1.1" 200 4045
+[02/Jun/2026 18:55:45] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 18:56:53] "GET /dashboard/reader/ HTTP/1.1" 200 4045
+[02/Jun/2026 18:56:53] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 18:57:09] "GET / HTTP/1.1" 302 0
+[02/Jun/2026 18:57:09] "GET /dashboard/reader/ HTTP/1.1" 200 4045
+[02/Jun/2026 18:57:11] "GET /logout/ HTTP/1.1" 302 0
+[02/Jun/2026 18:57:11] "GET /login/ HTTP/1.1" 200 1449
+[02/Jun/2026 18:57:30] "POST /login/ HTTP/1.1" 302 0
+[02/Jun/2026 18:57:31] "GET /dashboard/journalist/ HTTP/1.1" 200 3872
+[02/Jun/2026 18:57:31] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 18:57:37] "GET /create-newsletter/ HTTP/1.1" 200 1753
+[02/Jun/2026 18:59:16] "POST /create-newsletter/ HTTP/1.1" 302 0
+[02/Jun/2026 18:59:16] "GET /dashboard/journalist/ HTTP/1.1" 200 4236
+[02/Jun/2026 18:59:16] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 18:59:21] "GET /edit-newsletter/1/ HTTP/1.1" 200 1906
+[02/Jun/2026 19:01:45] "POST /edit-newsletter/1/ HTTP/1.1" 302 0
+[02/Jun/2026 19:01:45] "GET /dashboard/journalist/ HTTP/1.1" 200 4331
+[02/Jun/2026 19:01:45] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 19:01:56] "GET /create-newsletter/ HTTP/1.1" 200 1753
+[02/Jun/2026 19:02:17] "POST /create-newsletter/ HTTP/1.1" 302 0
+[02/Jun/2026 19:02:17] "GET /dashboard/journalist/ HTTP/1.1" 200 4564
+[02/Jun/2026 19:02:28] "GET / HTTP/1.1" 302 0
+[02/Jun/2026 19:02:28] "GET /dashboard/journalist/ HTTP/1.1" 200 4447
+[02/Jun/2026 19:02:34] "GET /logout/ HTTP/1.1" 302 0
+[02/Jun/2026 19:02:34] "GET /login/ HTTP/1.1" 200 1449
+[02/Jun/2026 19:02:34] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 19:02:52] "POST /login/ HTTP/1.1" 302 0
+[02/Jun/2026 19:02:52] "GET /dashboard/editor/ HTTP/1.1" 200 2790
+[02/Jun/2026 19:03:08] "GET /edit-newsletter/2/ HTTP/1.1" 200 1796
+[02/Jun/2026 19:03:19] "POST /edit-newsletter/2/ HTTP/1.1" 302 0
+[02/Jun/2026 19:03:19] "GET /dashboard/editor/ HTTP/1.1" 200 2923
+[02/Jun/2026 19:03:28] "GET /edit-newsletter/2/ HTTP/1.1" 200 1813
+[02/Jun/2026 19:03:28] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 19:03:44] "POST /edit-newsletter/2/ HTTP/1.1" 302 0
+[02/Jun/2026 19:03:44] "GET /dashboard/editor/ HTTP/1.1" 200 2956
+[02/Jun/2026 19:03:46] "GET /create-publisher/ HTTP/1.1" 200 1528
+[02/Jun/2026 19:04:15] "POST /create-publisher/ HTTP/1.1" 302 0
+[02/Jun/2026 19:04:15] "GET /dashboard/editor/ HTTP/1.1" 200 2956
+[02/Jun/2026 19:04:36] "GET /edit-newsletter/1/ HTTP/1.1" 200 1936
+[02/Jun/2026 19:04:36] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 19:04:45] "POST /edit-newsletter/1/ HTTP/1.1" 302 0
+[02/Jun/2026 19:04:45] "GET /dashboard/editor/ HTTP/1.1" 200 2956
+[02/Jun/2026 19:05:03] "GET /delete-newsletter/2/ HTTP/1.1" 200 1527
+[02/Jun/2026 19:05:06] "POST /delete-newsletter/2/ HTTP/1.1" 302 0
+[02/Jun/2026 19:05:06] "GET /dashboard/editor/ HTTP/1.1" 200 2674
+[02/Jun/2026 19:05:09] "GET / HTTP/1.1" 302 0
+[02/Jun/2026 19:05:09] "GET /dashboard/editor/ HTTP/1.1" 200 2558
+[02/Jun/2026 19:05:11] "GET /review-articles/ HTTP/1.1" 200 1769
+[02/Jun/2026 19:05:14] "GET / HTTP/1.1" 302 0
+[02/Jun/2026 19:05:14] "GET /dashboard/editor/ HTTP/1.1" 200 2558
+[02/Jun/2026 19:05:23] "GET /logout/ HTTP/1.1" 302 0
+[02/Jun/2026 19:05:23] "GET /login/ HTTP/1.1" 200 1449
+[02/Jun/2026 19:06:18] "POST /login/ HTTP/1.1" 200 1562
+[02/Jun/2026 19:06:18] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 19:06:32] "POST /login/ HTTP/1.1" 302 0
+[02/Jun/2026 19:06:32] "GET /dashboard/journalist/ HTTP/1.1" 200 1535
+[02/Jun/2026 19:07:19] "GET / HTTP/1.1" 302 0
+[02/Jun/2026 19:07:19] "GET /dashboard/journalist/ HTTP/1.1" 200 1535
+[02/Jun/2026 19:07:20] "GET /logout/ HTTP/1.1" 302 0
+[02/Jun/2026 19:07:20] "GET /login/ HTTP/1.1" 200 1449
+[02/Jun/2026 19:07:39] "POST /login/ HTTP/1.1" 302 0
+[02/Jun/2026 19:07:39] "GET /dashboard/editor/ HTTP/1.1" 200 2558
+[02/Jun/2026 19:07:39] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 19:07:48] "POST /approve-article/5/ HTTP/1.1" 302 0
+[02/Jun/2026 19:07:48] "GET /dashboard/editor/ HTTP/1.1" 200 2221
+[02/Jun/2026 19:08:08] "GET / HTTP/1.1" 302 0
+[02/Jun/2026 19:08:08] "GET /dashboard/editor/ HTTP/1.1" 200 2094
+[02/Jun/2026 19:08:10] "GET /logout/ HTTP/1.1" 302 0
+[02/Jun/2026 19:08:10] "GET /login/ HTTP/1.1" 200 1449
+[02/Jun/2026 19:08:28] "GET /password-reset/ HTTP/1.1" 200 1346
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Subject: Password Reset
+From: mango@domain.com
+To: ryzen@lnn.co.za
+Date: Tue, 02 Jun 2026 19:09:12 +0000
+Message-ID: <178042735291.67449.5562423098064151476@Litha.localdomain>
+
+Hi Ryzen,
+
+
+Here is your link to reset your password:
+http://127.0.0.1:8000//reset_password/4mwKBAid8HDyaHJiOw3ZMw/
+
+-------------------------------------------------------------------------------
+[02/Jun/2026 19:09:12] "POST /send-reset/ HTTP/1.1" 302 0
+[02/Jun/2026 19:09:12] "GET /login/ HTTP/1.1" 200 1559
+[02/Jun/2026 19:09:13] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 19:09:25] "GET //reset_password/4mwKBAid8HDyaHJiOw3ZMw/ HTTP/1.1" 200 1432
+[02/Jun/2026 19:09:48] "POST //reset_password/4mwKBAid8HDyaHJiOw3ZMw/ HTTP/1.1" 302 0
+[02/Jun/2026 19:09:48] "GET /login/ HTTP/1.1" 200 1449
+[02/Jun/2026 19:10:08] "POST /login/ HTTP/1.1" 200 1562
+[02/Jun/2026 19:10:21] "POST /login/ HTTP/1.1" 302 0
+[02/Jun/2026 19:10:21] "GET /dashboard/journalist/ HTTP/1.1" 200 1982
+[02/Jun/2026 19:10:27] "GET /logout/ HTTP/1.1" 302 0
+[02/Jun/2026 19:10:27] "GET /login/ HTTP/1.1" 200 1449
+^C(lbenv) lilitha13@Litha:~/my-python-projects/News_App/LNN$ python manage.py runserver
+python: can't open file '/home/lilitha13/my-python-projects/News_App/LNN/manage.ptpy': [Errno 2] No such file or directory
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/LNN$ python manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 02, 2026 - 19:17:21
+Django version 6.0.4, using settings 'LNN.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/
+[02/Jun/2026 19:17:24] "GET /register/ HTTP/1.1" 200 2891
+[02/Jun/2026 19:17:24] "GET /static/news/style.css HTTP/1.1" 304 0
+[02/Jun/2026 19:19:00] "POST /register/ HTTP/1.1" 200 3079
+^C(lbenv) lilitha13@Litha:~/my-python-projects/News_App/LNN$ cd ..
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App$ ls
+Dockerfile  LNN  README.md  capstone.txt  docs  lbenv  requirements.txt
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App$ make clean
+make: *** No rule to make target 'clean'.  Stop.
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App$ cd docs
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/docs$ make clean
+Removing everything under '_build'...
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/docs$ make html
+Running Sphinx v9.1.0
+loading translations [en]... done
+making output directory... done
+building [mo]: targets for 0 po files that are out of date
+writing output...
+building [html]: targets for 6 source files that are out of date
+updating environment: [new config] 6 added, 0 changed, 0 removed
+reading sources... [100%] news.migrations
+/home/lilitha13/my-python-projects/News_App/LNN/LNN/urls.py:docstring of LNN.urls:5: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+/home/lilitha13/my-python-projects/News_App/LNN/LNN/urls.py:docstring of LNN.urls:7: ERROR: Unexpected indentation. [docutils]
+/home/lilitha13/my-python-projects/News_App/LNN/LNN/urls.py:docstring of LNN.urls:9: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+looking for now-outdated files... none found
+pickling environment... done
+checking consistency... done
+preparing documents... done
+copying assets...
+copying static files...
+Writing evaluated template result to /home/lilitha13/my-python-projects/News_App/docs/_build/html/_static/basic.css
+Writing evaluated template result to /home/lilitha13/my-python-projects/News_App/docs/_build/html/_static/language_data.js
+Writing evaluated template result to /home/lilitha13/my-python-projects/News_App/docs/_build/html/_static/documentation_options.js
+Writing evaluated template result to /home/lilitha13/my-python-projects/News_App/docs/_build/html/_static/js/versions.js
+copying static files: done
+copying extra files...
+copying extra files: done
+copying assets: done
+writing output... [100%] news.migrations
+generating indices... genindex py-modindex done
+highlighting module code... [100%] news.views
+writing additional pages... search done
+dumping search index in English (code: en)... done
+dumping object inventory... done
+build succeeded, 3 warnings.
+
+The HTML pages are in _build/html.
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App/docs$ cd ..
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   LNN/news/forms.py
+        modified:   LNN/news/models.py
+        modified:   LNN/news/static/news/style.css
+        modified:   LNN/news/templates/base.html
+        modified:   LNN/news/templates/dashboards/editor_dashboard.html
+        modified:   LNN/news/templates/dashboards/journalist_dashboard.html
+        modified:   LNN/news/templates/dashboards/reader_dashboard.html
+        modified:   LNN/news/urls.py
+        modified:   LNN/news/views.py
+        modified:   docs/_build/doctrees/environment.pickle
+        modified:   docs/_build/doctrees/news.doctree
+        modified:   docs/_build/html/_modules/news/forms.html
+        modified:   docs/_build/html/_modules/news/models.html
+        modified:   docs/_build/html/_modules/news/views.html
+        modified:   docs/_build/html/genindex.html
+        modified:   docs/_build/html/modules.html
+        modified:   docs/_build/html/news.html
+        modified:   docs/_build/html/objects.inv
+        modified:   docs/_build/html/searchindex.js
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        LNN/news/migrations/0003_alter_customuser_email.py
+        LNN/news/migrations/0004_alter_article_publisher.py
+        LNN/news/templates/editor/create_publisher.html
+        LNN/news/templates/journalist/create_newsletter.html
+        LNN/news/templates/newsletters/
+        capstone.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App$ git add .
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App$ git commit -m "Added publisher and newsletter CRUD, enforced unique emails"
+[master 5544bed] Added publisher and newsletter CRUD, enforced unique emails
+ 26 files changed, 787 insertions(+), 35 deletions(-)
+ create mode 100644 LNN/news/migrations/0003_alter_customuser_email.py
+ create mode 100644 LNN/news/migrations/0004_alter_article_publisher.py
+ create mode 100644 LNN/news/templates/editor/create_publisher.html
+ create mode 100644 LNN/news/templates/journalist/create_newsletter.html
+ create mode 100644 LNN/news/templates/newsletters/delete_newsletter.html
+ create mode 100644 LNN/news/templates/newsletters/edit_newsletter.html
+ create mode 100644 capstone.txt
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App$ git push origin master
+Enumerating objects: 77, done.
+Counting objects: 100% (77/77), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (42/42), done.
+Writing objects: 100% (44/44), 46.68 KiB | 2.03 MiB/s, done.
+Total 44 (delta 26), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (26/26), completed with 21 local objects.
+To https://github.com/Lilithabam13/Litha-News-Network.git
+   168cbd1..5544bed  master -> master
+(lbenv) lilitha13@Litha:~/my-python-projects/News_App$ deactivate
+lilitha13@Litha:~/my-python-projects/News_App$

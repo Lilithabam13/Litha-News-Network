@@ -39,4 +39,12 @@ class NewsletterForm(forms.ModelForm):
     """Form used to create and update newsletters"""
     class Meta:
         model = Newsletter
-        fields = ["title", "body"]
+        fields = ["title", "articles"]
+        widgets = {"articles": forms.CheckboxSelectMultiple(),
+                   }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['articles'].queryset = Article.objects.filter(
+            is_approved=True)

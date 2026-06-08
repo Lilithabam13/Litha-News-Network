@@ -84,7 +84,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">login</span><span class="p">,</span> <span class="n">logout</span><span class="p">,</span> <span class="n">authenticate</span><span class="p">,</span> <span class="n">get_user_model</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_required</span><span class="p">,</span> <span class="n">user_passes_test</span><span class="p">,</span> <span class="n">permission_required</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomUserCreationForm</span><span class="p">,</span> <span class="n">ArticleForm</span><span class="p">,</span> <span class="n">PublisherForm</span><span class="p">,</span> <span class="n">NewsletterForm</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">ResetToken</span><span class="p">,</span> <span class="n">Newsletter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">ResetToken</span><span class="p">,</span> <span class="n">Newsletter</span><span class="p">,</span> <span class="n">CustomUser</span><span class="p">,</span> <span class="n">Publisher</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Group</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.core.mail</span><span class="w"> </span><span class="kn">import</span> <span class="n">send_mail</span><span class="p">,</span> <span class="n">EmailMessage</span>
@@ -356,19 +356,19 @@
 <span class="nd">@login_required</span>
 <span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">is_editor</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">editor_dashboard</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Displays the editor dashboard, shows all articles created by</span>
-<span class="sd">    a journalist.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Displays the editor dashboard, shows articles and newsletters.</span>
 
-<span class="sd">    Editor may read, update, delete all articles.</span>
+<span class="sd">    Editors may read, update, delete all items including already approved</span>
+<span class="sd">    content.</span>
 
 <span class="sd">    :param request: HTTP request object</span>
 <span class="sd">    :type request: HttpRequest</span>
 <span class="sd">    :return: Rendered journalist dashboard</span>
 <span class="sd">    :rtype: HttpResponse&quot;&quot;&quot;</span>
-    <span class="n">pending_articles</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">is_approved</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">newsletters</span> <span class="o">=</span> <span class="n">Newsletter</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">all_articles</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;created_at&quot;</span><span class="p">)</span>
+    <span class="n">newsletters</span> <span class="o">=</span> <span class="n">Newsletter</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;created_at&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;dashboards/editor_dashboard.html&quot;</span><span class="p">,</span>
-                  <span class="p">{</span><span class="s2">&quot;articles&quot;</span><span class="p">:</span> <span class="n">pending_articles</span><span class="p">,</span> <span class="s2">&quot;newsletters&quot;</span><span class="p">:</span> <span class="n">newsletters</span><span class="p">})</span></div>
+                  <span class="p">{</span><span class="s2">&quot;articles&quot;</span><span class="p">:</span> <span class="n">all_articles</span><span class="p">,</span> <span class="s2">&quot;newsletters&quot;</span><span class="p">:</span> <span class="n">newsletters</span><span class="p">})</span></div>
 
 
 
@@ -377,20 +377,41 @@
 <span class="nd">@login_required</span>
 <span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">is_reader</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">reader_dashboard</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Displays the journalist dashboard, shows all articles created by</span>
-<span class="sd">    a journalist.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Displays the reader dashboard, shows personalised content feed.</span>
 
-<span class="sd">    Reader may read articles.</span>
+<span class="sd">    Reader may read newsletters and approved articles only tailored to their</span>
+<span class="sd">    subscribed publishers and journalists they follow.</span>
 
 <span class="sd">    :param request: HTTP request object</span>
 <span class="sd">    :type request: HttpRequest</span>
 <span class="sd">    :return: Rendered journalist dashboard</span>
 <span class="sd">    :rtype: HttpResponse&quot;&quot;&quot;</span>
+    <span class="n">current_user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+    <span class="n">my_publishers</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">subscribed_publishers</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">my_journalists</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">subscribed_journalists</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-    <span class="n">articles</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">is_approved</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">newsletters</span> <span class="o">=</span> <span class="n">Newsletter</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">all_approved</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">is_approved</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">feed_articles</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">article</span> <span class="ow">in</span> <span class="n">all_approved</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">article</span><span class="o">.</span><span class="n">publisher</span> <span class="ow">in</span> <span class="n">my_publishers</span> <span class="ow">or</span> <span class="n">article</span><span class="o">.</span><span class="n">author</span> <span class="ow">in</span> <span class="n">my_journalists</span><span class="p">:</span>
+            <span class="n">feed_articles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+
+        <span class="n">all_newsletters</span> <span class="o">=</span> <span class="n">Newsletter</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">feed_newsletters</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">newsletter</span> <span class="ow">in</span> <span class="n">all_newsletters</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">newsletter</span><span class="o">.</span><span class="n">author</span> <span class="ow">in</span> <span class="n">my_journalists</span><span class="p">:</span>
+                <span class="n">feed_newsletters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newsletter</span><span class="p">)</span>
+
+    <span class="n">all_publishers</span> <span class="o">=</span> <span class="n">Publisher</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">all_journalists</span> <span class="o">=</span> <span class="n">CustomUser</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;journalist&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;dashboards/reader_dashboard.html&quot;</span><span class="p">,</span>
-                  <span class="p">{</span><span class="s2">&quot;articles&quot;</span><span class="p">:</span> <span class="n">articles</span><span class="p">,</span> <span class="s2">&quot;newsletters&quot;</span><span class="p">:</span> <span class="n">newsletters</span><span class="p">})</span></div>
+                  <span class="p">{</span><span class="s2">&quot;articles&quot;</span><span class="p">:</span> <span class="n">feed_articles</span><span class="p">,</span> <span class="s2">&quot;newsletters&quot;</span><span class="p">:</span> <span class="n">feed_newsletters</span><span class="p">,</span>
+                   <span class="s2">&quot;all_publishers&quot;</span><span class="p">:</span> <span class="n">all_publishers</span><span class="p">,</span>
+                   <span class="s2">&quot;all_journalists&quot;</span><span class="p">:</span> <span class="n">all_journalists</span><span class="p">})</span></div>
 
 
 
@@ -700,6 +721,8 @@
             <span class="n">newsletter</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
             <span class="n">newsletter</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
+            <span class="n">form</span><span class="o">.</span><span class="n">save_m2m</span><span class="p">()</span>
+
             <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Newsletter created successfully.&quot;</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;news:journalist_dashboard&quot;</span><span class="p">)</span>
@@ -785,6 +808,57 @@
 
     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;newsletters/delete_newsletter.html&quot;</span><span class="p">,</span>
                   <span class="p">{</span><span class="s2">&quot;newsletter&quot;</span><span class="p">:</span> <span class="n">newsletter</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="toggle_publisher_subscription">
+<a class="viewcode-back" href="../../news.html#news.views.toggle_publisher_subscription">[docs]</a>
+<span class="nd">@login_required</span>
+<span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">is_reader</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">toggle_publisher_subscription</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">publisher_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allows a reader to subscribe or unsubscribe from a publisher.</span>
+
+<span class="sd">    :param request: HTTP request object</span>
+<span class="sd">    :type request: HttpRequest</span>
+<span class="sd">    :param publisher_id: Unique publisher identifier</span>
+<span class="sd">    :type publisher_id: int</span>
+<span class="sd">    :return: Redirect response back to reader feed</span>
+<span class="sd">    :rtype: HttpResponseRedirect&quot;&quot;&quot;</span>
+
+    <span class="n">publisher</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Publisher</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">publisher_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">subscribed_publishers</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">publisher</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">subscribed_publishers</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">publisher</span><span class="p">)</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Unsubscribed from </span><span class="si">{</span><span class="n">publisher</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">subscribed_publishers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">publisher</span><span class="p">)</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Subscribed to </span><span class="si">{</span><span class="n">publisher</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;news:reader_dashboard&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="toggle_journalist_subscription">
+<a class="viewcode-back" href="../../news.html#news.views.toggle_journalist_subscription">[docs]</a>
+<span class="nd">@login_required</span>
+<span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">is_reader</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">toggle_journalist_subscription</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">journalist_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allows a reader to follow or unfollow from an independent journalist.</span>
+
+<span class="sd">    :param request: HTTP request object</span>
+<span class="sd">    :type request: HttpRequest</span>
+<span class="sd">    :param journalist_id: Unique journalist identifier</span>
+<span class="sd">    :type journalist_id: int</span>
+<span class="sd">    :return: Redirect response to reader feed</span>
+<span class="sd">    :rtype: httpResponseRedirect&quot;&quot;&quot;</span>
+
+    <span class="n">journalist</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CustomUser</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">journalist_id</span><span class="p">,</span>
+                                   <span class="n">role</span><span class="o">=</span><span class="s2">&quot;journalist&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">subscribed_journalists</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">journalist</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">subscribed_journalists</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">journalist</span><span class="p">)</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Unfollowed </span><span class="si">{</span><span class="n">journalist</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">subscribed_journalists</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">journalist</span><span class="p">)</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Following </span><span class="si">{</span><span class="n">journalist</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;news:reader_dashboard&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 

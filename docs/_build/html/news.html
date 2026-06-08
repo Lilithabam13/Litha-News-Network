@@ -116,6 +116,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#news.views.review_articles"><code class="docutils literal notranslate"><span class="pre">review_articles()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#news.views.role_redirect"><code class="docutils literal notranslate"><span class="pre">role_redirect()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#news.views.send_password_reset"><code class="docutils literal notranslate"><span class="pre">send_password_reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#news.views.toggle_journalist_subscription"><code class="docutils literal notranslate"><span class="pre">toggle_journalist_subscription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#news.views.toggle_publisher_subscription"><code class="docutils literal notranslate"><span class="pre">toggle_publisher_subscription()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#news.views.welcome"><code class="docutils literal notranslate"><span class="pre">welcome()</span></code></a></li>
 </ul>
 </li>
@@ -321,7 +323,7 @@ user subscriptions</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="news.forms.NewsletterForm">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">news.forms.</span></span><span class="sig-name descname"><span class="pre">NewsletterForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news/forms.html#NewsletterForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news.forms.NewsletterForm" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">news.forms.</span></span><span class="sig-name descname"><span class="pre">NewsletterForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news/forms.html#NewsletterForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news.forms.NewsletterForm" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
 <p>Form used to create and update newsletters</p>
 <dl class="py class">
@@ -330,7 +332,7 @@ user subscriptions</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="news.forms.NewsletterForm.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['title',</span> <span class="pre">'body']</span></span><a class="headerlink" href="#news.forms.NewsletterForm.Meta.fields" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['title',</span> <span class="pre">'articles']</span></span><a class="headerlink" href="#news.forms.NewsletterForm.Meta.fields" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -339,11 +341,16 @@ user subscriptions</p>
 <dd><p>alias of <a class="reference internal" href="#news.models.Newsletter" title="news.models.Newsletter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Newsletter</span></code></a></p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="news.forms.NewsletterForm.Meta.widgets">
+<span class="sig-name descname"><span class="pre">widgets</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'articles':</span> <span class="pre">&lt;django.forms.widgets.CheckboxSelectMultiple</span> <span class="pre">object&gt;}</span></span><a class="headerlink" href="#news.forms.NewsletterForm.Meta.widgets" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="news.forms.NewsletterForm.base_fields">
-<span class="sig-name descname"><span class="pre">base_fields</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'body':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'title':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></span><a class="headerlink" href="#news.forms.NewsletterForm.base_fields" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">base_fields</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'articles':</span> <span class="pre">&lt;django.forms.models.ModelMultipleChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'title':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></span><a class="headerlink" href="#news.forms.NewsletterForm.base_fields" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -484,10 +491,42 @@ object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="news.models.Article.independent_authors">
+<span class="sig-name descname"><span class="pre">independent_authors</span></span><a class="headerlink" href="#news.models.Article.independent_authors" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="news.models.Article.is_approved">
 <span class="sig-name descname"><span class="pre">is_approved</span></span><a class="headerlink" href="#news.models.Article.is_approved" title="Link to this definition"></a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="news.models.Article.newsletters">
+<span class="sig-name descname"><span class="pre">newsletters</span></span><a class="headerlink" href="#news.models.Article.newsletters" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -661,6 +700,38 @@ object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="news.models.CustomUser.independent_articles">
+<span class="sig-name descname"><span class="pre">independent_articles</span></span><a class="headerlink" href="#news.models.CustomUser.independent_articles" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="news.models.CustomUser.independent_newsletters">
+<span class="sig-name descname"><span class="pre">independent_newsletters</span></span><a class="headerlink" href="#news.models.CustomUser.independent_newsletters" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="news.models.CustomUser.is_active">
 <span class="sig-name descname"><span class="pre">is_active</span></span><a class="headerlink" href="#news.models.CustomUser.is_active" title="Link to this definition"></a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
@@ -770,6 +841,16 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 object the first time, the query is executed.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="news.models.CustomUser.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news/models.html#CustomUser.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news.models.CustomUser.save" title="Link to this definition"></a></dt>
+<dd><p>Save the current instance. Override this in a subclass if you want to
+control the saving process.</p>
+<p>The ‘force_insert’ and ‘force_update’ parameters can be used to insist
+that the “save” must be an SQL insert or update (or equivalent for
+non-SQL backends), respectively. Normally, they should not be set.</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="news.models.CustomUser.subscribed_journalists">
 <span class="sig-name descname"><span class="pre">subscribed_journalists</span></span><a class="headerlink" href="#news.models.CustomUser.subscribed_journalists" title="Link to this definition"></a></dt>
@@ -851,6 +932,22 @@ object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="news.models.Newsletter.articles">
+<span class="sig-name descname"><span class="pre">articles</span></span><a class="headerlink" href="#news.models.Newsletter.articles" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="news.models.Newsletter.author">
 <span class="sig-name descname"><span class="pre">author</span></span><a class="headerlink" href="#news.models.Newsletter.author" title="Link to this definition"></a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
@@ -867,13 +964,6 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <dt class="sig sig-object py" id="news.models.Newsletter.author_id">
 <span class="sig-name descname"><span class="pre">author_id</span></span><a class="headerlink" href="#news.models.Newsletter.author_id" title="Link to this definition"></a></dt>
 <dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="news.models.Newsletter.body">
-<span class="sig-name descname"><span class="pre">body</span></span><a class="headerlink" href="#news.models.Newsletter.body" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="news.models.Newsletter.created_at">
@@ -897,6 +987,22 @@ object the first time, the query is executed.</p>
 <span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#news.models.Newsletter.id" title="Link to this definition"></a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="news.models.Newsletter.independent_newsletters">
+<span class="sig-name descname"><span class="pre">independent_newsletters</span></span><a class="headerlink" href="#news.models.Newsletter.independent_newsletters" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1409,9 +1515,9 @@ newsletter.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="news.views.editor_dashboard">
 <span class="sig-prename descclassname"><span class="pre">news.views.</span></span><span class="sig-name descname"><span class="pre">editor_dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news/views.html#editor_dashboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news.views.editor_dashboard" title="Link to this definition"></a></dt>
-<dd><p>Displays the editor dashboard, shows all articles created by
-a journalist.</p>
-<p>Editor may read, update, delete all articles.</p>
+<dd><p>Displays the editor dashboard, shows articles and newsletters.</p>
+<p>Editors may read, update, delete all items including already approved
+content.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>request</strong> (<em>HttpRequest</em>) – HTTP request object</p>
@@ -1566,9 +1672,9 @@ a journalist.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="news.views.reader_dashboard">
 <span class="sig-prename descclassname"><span class="pre">news.views.</span></span><span class="sig-name descname"><span class="pre">reader_dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news/views.html#reader_dashboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news.views.reader_dashboard" title="Link to this definition"></a></dt>
-<dd><p>Displays the journalist dashboard, shows all articles created by
-a journalist.</p>
-<p>Reader may read articles.</p>
+<dd><p>Displays the reader dashboard, shows personalised content feed.</p>
+<p>Reader may read newsletters and approved articles only tailored to their
+subscribed publishers and journalists they follow.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>request</strong> (<em>HttpRequest</em>) – HTTP request object</p>
@@ -1629,6 +1735,46 @@ a journalist.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Redirect response to login page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponseRedirect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news.views.toggle_journalist_subscription">
+<span class="sig-prename descclassname"><span class="pre">news.views.</span></span><span class="sig-name descname"><span class="pre">toggle_journalist_subscription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">journalist_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news/views.html#toggle_journalist_subscription"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news.views.toggle_journalist_subscription" title="Link to this definition"></a></dt>
+<dd><p>Allows a reader to follow or unfollow from an independent journalist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – HTTP request object</p></li>
+<li><p><strong>journalist_id</strong> (<em>int</em>) – Unique journalist identifier</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Redirect response to reader feed</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>httpResponseRedirect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news.views.toggle_publisher_subscription">
+<span class="sig-prename descclassname"><span class="pre">news.views.</span></span><span class="sig-name descname"><span class="pre">toggle_publisher_subscription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publisher_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news/views.html#toggle_publisher_subscription"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news.views.toggle_publisher_subscription" title="Link to this definition"></a></dt>
+<dd><p>Allows a reader to subscribe or unsubscribe from a publisher.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – HTTP request object</p></li>
+<li><p><strong>publisher_id</strong> (<em>int</em>) – Unique publisher identifier</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Redirect response back to reader feed</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>HttpResponseRedirect</p>

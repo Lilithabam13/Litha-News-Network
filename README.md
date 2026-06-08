@@ -15,31 +15,45 @@ The system allows journalists to create articles, editors to review and approve 
 - Sphinx-generated documentation
 - Docker container support
 
-# Setup with Virtual Environment
+## Setup with Virtual Environment
 
-## Clone repository
+Follow these steps in order to set up and run the application locally.
 
-git clone https://github.com/Lilithabam13/Litha-News-Network
+### 1. Clone repository
+Clone the repository to your local machine and navigate into project directory:
 
-## Create virtual environment
+git clone [https://github.com/Lilithabam13/Litha-News-Network](http://github.com/Lilithabam13/Litha-News-Network) cd Litha-News-Network
+
+## 2. Create virtual environment
 
 python -m venv lbenv
 
-## Activate environment
+## 3. Activate environment
 
 source lbenv/bin/activate
 
-## Install dependencies
+## 4. Install dependencies
 
+pip install --upgrade pip
 pip install -r requirements.txt
 
-## Run migrations
+## 5. Database configuration
+
+Before running Litha News Network Application, configure a local MariaDB instance:
+'''sql
+CREATE DATABASE lnn_db;
+
+## 6. Run migrations
 
 python LNN/manage.py migrate
 
-## Run server
+## 7. Run server
 
 python LNN/manage.py runserver
+
+## Access the application
+
+Local URL: http://127.0.0.1:8000/
 
 ---
 
@@ -50,6 +64,7 @@ python LNN/manage.py runserver
 docker build -t lnn-app .
 
 ## Run container
+
 docker run -p 8000:8000 lnn-app
 
 ### Technologies Used
@@ -59,5 +74,4 @@ docker run -p 8000:8000 lnn-app
 - Django REST Framework
 - Sphinx
 - Docker
-- SQLite
-
+- MariaDB
