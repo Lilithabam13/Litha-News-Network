@@ -36,6 +36,7 @@ source lbenv/bin/activate
 
 pip install --upgrade pip
 pip install -r requirements.txt
+pip install mysqlclient
 
 ## 5. Database configuration
 
