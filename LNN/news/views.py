@@ -22,7 +22,10 @@ import secrets
 from django.utils import timezone
 from datetime import timedelta
 from hashlib import sha1
+from .admin import create_groups
 # Create your views here.
+
+create_groups()
 
 
 # Role check functions
