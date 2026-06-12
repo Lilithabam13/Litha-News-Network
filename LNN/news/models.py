@@ -23,6 +23,8 @@ class CustomUser(AbstractUser):
     - publisher subscriptions
     - journalist subscriptions"""
 
+    email = models.EmailField(unique=True)
+
     ROLE_CHOICES = (
         ("reader", "Reader"),
         ("editor", "Editor"),
@@ -35,6 +37,22 @@ class CustomUser(AbstractUser):
 
     subscribed_journalists = models.ManyToManyField(
         "self", blank=True, symmetrical=False, related_name="followers")
+
+    independent_articles = models.ManyToManyField(
+        "Article", blank=True, related_name="independent_authors")
+
+    independent_newsletters = models.ManyToManyField(
+        "Newsletter", blank=True, related_name="independent_newsletters")
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if self.role == "journalist":
+            self.subscribed_publishers.clear()
+            self.subscribed_journalists.clear()
+        elif self.role == "reader":
+            self.independent_articles.clear()
+            self.independent_newsletters.clear()
 
 
 class Publisher(models.Model):
@@ -75,7 +93,8 @@ class Article(models.Model):
                                related_name="articles")
 
     publisher = models.ForeignKey(
-        Publisher, on_delete=models.CASCADE, related_name="articles")
+        Publisher, on_delete=models.CASCADE, related_name="articles",
+        null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -85,11 +104,12 @@ class Newsletter(models.Model):
     """Represents a newsletter published to readers."""
 
     title = models.CharField(max_length=255)
-    body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE,
                                related_name="newsletters")
+    articles = models.ManyToManyField(Article, related_name="newsletters",
+                                      blank=True)
 
     def __str__(self):
         return self.title
