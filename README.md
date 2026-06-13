@@ -52,20 +52,33 @@ Local URL: http://127.0.0.1:8000/
 
 ## Docker Setup (Container Branch)
 
-## Build image
+## 1. Build image
 docker build -t lnn-app .
 
-## Run container
+## 2. Run container
 docker run -p 8000:8000 lnn-app
 
 ## Documentation (Sphinx)
 - cd docs
 - make html
+- docs/build/html/index.html
 
 ## Project Structure
 - master - main application
 - container - Docker configuration
 - docs - Sphinx documentation
+
+## Deployment Notes
+This project runs locally via:
+- Django development server
+- Docker container
+
+Intended for demonstration evaluation purposes
+
+# Security Notes
+- No sensitive credentials are committed
+- env file is excluded via .gitignore
+Tokens are hashed using SHA1 and expire automatically
 
 ## Technologies Used
 - Python
