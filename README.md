@@ -59,8 +59,8 @@ docker build -t lnn-app .
 docker run -p 8000:8000 lnn-app
 
 ## Documentation (Sphinx)
-cd docs
-make html
+- cd docs
+- make html
 
 ## Project Structure
 - master - main application
